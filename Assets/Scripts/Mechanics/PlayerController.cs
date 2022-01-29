@@ -173,15 +173,15 @@ namespace Platformer.Mechanics
                     ChangeMusic(hydeTheme);
                     spriteRenderer.sprite = hydeSprite;
                     maxSpeed = 3;
-                    jumpTakeOffSpeed = 3;
+                    jumpTakeOffSpeed = 6;
                     break;
                 // Jykell code
                 case false:
                     Debug.Log("Transformed into Jykell");
                     ChangeMusic(jekyllTheme);
                     spriteRenderer.sprite = jekyllSprite;
-                    maxSpeed = 7;
-                    jumpTakeOffSpeed = 7;
+                    maxSpeed = 4f;
+                    jumpTakeOffSpeed = 8;
                     break;
             }
             controlEnabled = true;
