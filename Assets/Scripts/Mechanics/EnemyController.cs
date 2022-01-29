@@ -14,12 +14,13 @@ namespace Platformer.Mechanics
     {
         public PatrolPath path;
         public AudioClip ouch;
-
+        public AnimationController control;
+        public Animator enemyAnimator;  
         internal PatrolPath.Mover mover;
-        internal AnimationController control;
         internal Collider2D _collider;
         internal AudioSource _audio;
         SpriteRenderer spriteRenderer;
+        internal bool isPlayingDeathAnimation = false;
 
         public Bounds Bounds => _collider.bounds;
 
@@ -29,6 +30,7 @@ namespace Platformer.Mechanics
             _collider = GetComponent<Collider2D>();
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
+            enemyAnimator = GetComponent<Animator>();
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -49,6 +51,20 @@ namespace Platformer.Mechanics
                 if (mover == null) mover = path.CreateMover(control.maxSpeed * 0.5f);
                 control.move.x = Mathf.Clamp(mover.Position.x - transform.position.x, -1, 1);
             }
+        }
+
+        public void EnemyDeathAnimation()
+        {
+            StartCoroutine(EnemyDeathAnimationCoroutine());
+        }
+
+        public IEnumerator EnemyDeathAnimationCoroutine()
+        {
+            isPlayingDeathAnimation = true;
+            enemyAnimator.SetTrigger("death");
+            yield return new WaitForSeconds(1f);
+            Destroy(this.gameObject);
+            isPlayingDeathAnimation = false;
         }
 
     }

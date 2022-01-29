@@ -69,7 +69,8 @@ MonoBehaviour:
   collider2d: {fileID: 1824045667}
   boxCollider2d: {fileID: 1824045667}
   audioSource: {fileID: 0}
-  parentaudioSource: {fileID: 0}
+  audioSourceParent: {fileID: 0}
+  mainCamera: {fileID: 0}
   health: {fileID: 0}
   controlEnabled: 1
 --- !u!212 &212064061491315838
