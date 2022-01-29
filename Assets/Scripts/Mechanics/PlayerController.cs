@@ -18,6 +18,17 @@ namespace Platformer.Mechanics
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
+        public AudioClip jekyllTheme;
+        public AudioClip hydeTheme;
+
+        public Sprite jekyllSprite;
+        public Sprite hydeSprite;
+
+
+        /// <summary>
+        /// Is the Player transformed
+        /// </summary>
+        public bool transformed = false;
         /// <summary>
         /// Max horizontal speed of the player.
         /// </summary>
@@ -26,13 +37,21 @@ namespace Platformer.Mechanics
         /// Initial jump velocity at the start of a jump.
         /// </summary>
         public float jumpTakeOffSpeed = 7;
+        /// <summary>
+        /// Is the Player frozen
+        /// </summary>
+        public bool frozen = false;
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
-        /*internal new*/ public Collider2D collider2d;
-        /*internal new*/ public AudioSource audioSource;
+        public Collider2D collider2d;
+        public BoxCollider2D boxCollider2d;
+        public AudioSource audioSource;
+        public AudioSource audioSourceParent;
+        public Camera mainCamera;
         public Health health;
         public bool controlEnabled = true;
+        
 
         bool jump;
         Vector2 move;
@@ -49,6 +68,7 @@ namespace Platformer.Mechanics
             collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            audioSourceParent = mainCamera.gameObject.GetComponent<AudioSource>();
         }
 
         protected override void Update()
@@ -56,12 +76,19 @@ namespace Platformer.Mechanics
             if (controlEnabled)
             {
                 move.x = Input.GetAxis("Horizontal");
+
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
                 else if (Input.GetButtonUp("Jump"))
                 {
+                    Debug.Log("Jumped");
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
+                }
+                // toogle transform
+                if (Input.GetKeyDown("x"))
+                {
+                    Transform();
                 }
             }
             else
@@ -119,14 +146,52 @@ namespace Platformer.Mechanics
             }
 
             if (move.x > 0.01f)
-                spriteRenderer.flipX = true;
-            else if (move.x < -0.01f)
                 spriteRenderer.flipX = false;
+            else if (move.x < -0.01f)
+                spriteRenderer.flipX = true;
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+            animator.SetFloat("velocityY", Mathf.Abs(velocity.y));
 
             targetVelocity = move * maxSpeed;
+        }
+        
+        protected void Transform()
+        {
+            controlEnabled = false;
+            transformed = !transformed;
+            Vector2 newColliderVector = transformed ? new Vector2(0.9f, 1.4f) : new Vector2(0.65f, 1f);
+            boxCollider2d.size = newColliderVector;
+            animator.SetBool("transformed", transformed);
+            animator.SetTrigger("transformTrigger");
+            switch (transformed)
+            {
+                // Hyde code
+                case true:
+                    Debug.Log("Transformed into Hyde");
+                    ChangeMusic(hydeTheme);
+                    spriteRenderer.sprite = hydeSprite;
+                    maxSpeed = 3;
+                    jumpTakeOffSpeed = 6;
+                    break;
+                // Jykell code
+                case false:
+                    Debug.Log("Transformed into Jykell");
+                    ChangeMusic(jekyllTheme);
+                    spriteRenderer.sprite = jekyllSprite;
+                    maxSpeed = 4f;
+                    jumpTakeOffSpeed = 8;
+                    break;
+            }
+            controlEnabled = true;
+        }
+
+        public void ChangeMusic(AudioClip clip)
+        {
+            audioSourceParent.Stop();
+            audioSourceParent.clip = clip;
+            audioSourceParent.Play();
         }
 
         public enum JumpState

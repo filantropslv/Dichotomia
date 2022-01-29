@@ -40,7 +40,7 @@ namespace Platformer.Mechanics
         Animator animator;
         PlatformerModel model = Simulation.GetModel<PlatformerModel>();
 
-        protected virtual void Awake()
+        public virtual void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
@@ -63,12 +63,13 @@ namespace Platformer.Mechanics
             }
 
             if (move.x > 0.01f)
-                spriteRenderer.flipX = true;
-            else if (move.x < -0.01f)
                 spriteRenderer.flipX = false;
+            else if (move.x < -0.01f)
+                spriteRenderer.flipX = true;
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+            animator.SetFloat("velocityY", Mathf.Abs(velocity.y));
 
             targetVelocity = move * maxSpeed;
         }
