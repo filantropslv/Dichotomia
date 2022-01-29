@@ -60,8 +60,9 @@ MonoBehaviour:
   hydeSprite: {fileID: -7659611344755430901, guid: 17b216ca25f83a7489b360447f55c0aa,
     type: 3}
   transformed: 0
-  maxSpeed: 3
+  maxSpeed: 7
   jumpTakeOffSpeed: 7
+  frozen: 0
   jumpState: 0
   collider2d: {fileID: 1824045667}
   boxCollider2d: {fileID: 1824045667}

@@ -156,6 +156,7 @@ namespace Platformer.Mechanics
             frozen = true;
             transformed = !transformed;
             animator.SetBool("transformed", transformed);
+            animator.SetTrigger("transformTrigger");
             spriteRenderer.sprite = transformed ? hydeSprite : jekyllSprite;
             switch (transformed)
             {
@@ -163,10 +164,18 @@ namespace Platformer.Mechanics
                 case true:
                     Debug.Log("Transformed into Hyde");
                     boxCollider2d.size = new Vector2(0.9f, 1.4f);
+                    maxSpeed = 3;
+                    jumpTakeOffSpeed = 3;
+                    model.jumpModifier = 1.5f;
+                    model.jumpDeceleration = 0.5f;
                     break;
                 // Jykell code
                 case false:
                     Debug.Log("Transformed into Jykell");
+                    maxSpeed = 7;
+                    jumpTakeOffSpeed = 7;
+                    model.jumpModifier = 1.5f;
+                    model.jumpDeceleration = 1.5f;
                     boxCollider2d.size = new Vector2(0.65f, 1f);
                     break;
             }
