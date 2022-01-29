@@ -34,6 +34,10 @@ namespace Platformer.Mechanics
         /// Initial jump velocity at the start of a jump.
         /// </summary>
         public float jumpTakeOffSpeed = 7;
+        /// <summary>
+        /// Is the Player frozen
+        /// </summary>
+        public bool frozen = false;
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
@@ -64,7 +68,9 @@ namespace Platformer.Mechanics
         {
             if (controlEnabled)
             {
-                move.x = Input.GetAxis("Horizontal");
+                if (!frozen)
+                    move.x = Input.GetAxis("Horizontal");
+
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
                 else if (Input.GetButtonUp("Jump"))
@@ -140,14 +146,17 @@ namespace Platformer.Mechanics
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+            animator.SetFloat("velocityY", Mathf.Abs(velocity.x));
 
             targetVelocity = move * maxSpeed;
         }
         
         protected void Transform()
         {
-            
+            frozen = true;
             transformed = !transformed;
+            animator.SetBool("transformed", transformed);
+            spriteRenderer.sprite = transformed ? hydeSprite : jekyllSprite;
             switch (transformed)
             {
                 // Hyde code
@@ -161,8 +170,7 @@ namespace Platformer.Mechanics
                     boxCollider2d.size = new Vector2(0.65f, 1f);
                     break;
             }
-            spriteRenderer.sprite = transformed ? hydeSprite : jekyllSprite;
-            animator.SetBool("transformed", transformed);
+            frozen = false;
         }
 
         public enum JumpState
