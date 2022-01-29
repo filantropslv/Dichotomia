@@ -56,9 +56,7 @@ namespace Platformer.Mechanics
         public Color color1 = Color.red;
         public Color color2 = Color.blue;
         public float duration = 3.0F;
-        public Tilemap levelTilemap;
-        public Tilemap backgroundTilemap;
-        public Tilemap farBackgroundTilemap;
+        public Tilemap[] levelTilemaps;
 
         bool jump;
         Vector2 move;
@@ -197,7 +195,10 @@ namespace Platformer.Mechanics
         public void ChangeBackgroundColor()
         {
             mainCamera.backgroundColor = transformed ? color2 : color1;
-            levelTilemap.color = transformed ? color2 : color1;
+            foreach (Tilemap levelTilemap in levelTilemaps)
+            {
+                levelTilemap.color = transformed ? color2 : color1;
+            }
         }
         public void ChangeMusic(AudioClip clip)
         {
