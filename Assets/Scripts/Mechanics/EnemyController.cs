@@ -15,7 +15,8 @@ namespace Platformer.Mechanics
         public PatrolPath path;
         public AudioClip ouch;
         public AnimationController control;
-        public Animator enemyAnimator;  
+        public Animator enemyAnimator;
+        public Health health;
         internal PatrolPath.Mover mover;
         internal Collider2D _collider;
         internal AudioSource _audio;
@@ -31,6 +32,7 @@ namespace Platformer.Mechanics
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             enemyAnimator = GetComponent<Animator>();
+            health = GetComponent<Health>();
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -41,6 +43,12 @@ namespace Platformer.Mechanics
                 var ev = Schedule<PlayerEnemyCollision>();
                 ev.player = player;
                 ev.enemy = this;
+            }
+            var enemy = collision.gameObject.GetComponent<EnemyController>();
+            if (enemy != null)
+            {
+                Debug.Log("test");
+                Physics2D.IgnoreCollision(enemy.gameObject.GetComponent<Collider2D>(), this._collider);
             }
         }
 

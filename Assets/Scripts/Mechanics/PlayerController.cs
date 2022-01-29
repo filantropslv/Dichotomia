@@ -57,6 +57,8 @@ namespace Platformer.Mechanics
         public Color color2 = Color.blue;
         public float duration = 3.0F;
         public Tilemap[] levelTilemaps;
+        public Transform frontCheck;
+        public float meleeRange = 0.5f;
 
         bool jump;
         Vector2 move;
@@ -94,6 +96,10 @@ namespace Platformer.Mechanics
                 if (Input.GetKeyDown("x"))
                 {
                     Transform();
+                }
+                if (Input.GetKeyDown("c"))
+                {
+                    MeleeAttack();
                 }
             }
             else
@@ -207,6 +213,16 @@ namespace Platformer.Mechanics
             audioSourceParent.clip = clip;
             audioSourceParent.time = musictime;
             audioSourceParent.Play();
+        }
+        private void MeleeAttack()
+        {
+            animator.SetTrigger("melee");
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(frontCheck.position, meleeRange, LayerMask.GetMask("Enemies"));
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                var ev = Schedule<PlayerMeleeEnemy>();
+                ev.enemy = enemy.gameObject.GetComponent<EnemyController>();
+            }
         }
 
         public enum JumpState
