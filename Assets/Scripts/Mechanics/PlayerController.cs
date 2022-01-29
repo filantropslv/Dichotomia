@@ -5,6 +5,7 @@ using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
+using UnityEngine.Tilemaps;
 
 namespace Platformer.Mechanics
 {
@@ -52,7 +53,12 @@ namespace Platformer.Mechanics
         public Camera mainCamera;
         public Health health;
         public bool controlEnabled = true;
-        
+        public Color color1 = Color.red;
+        public Color color2 = Color.blue;
+        public float duration = 3.0F;
+        public Tilemap levelTilemap;
+        public Tilemap backgroundTilemap;
+        public Tilemap farBackgroundTilemap;
 
         bool jump;
         Vector2 move;
@@ -185,9 +191,16 @@ namespace Platformer.Mechanics
                     jumpTakeOffSpeed = 8;
                     break;
             }
+            ChangeBackgroundColor();
             controlEnabled = true;
         }
-
+        public void ChangeBackgroundColor()
+        {
+            mainCamera.backgroundColor = transformed ? color2 : color1;
+            levelTilemap.color = transformed ? color2 : color1;
+            backgroundTilemap.color = transformed ? color2 : color1;
+            farBackgroundTilemap.color = transformed ? color2 : color1;
+        }
         public void ChangeMusic(AudioClip clip)
         {
             musictime = audioSourceParent.time;
