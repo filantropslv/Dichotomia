@@ -55,6 +55,8 @@ MonoBehaviour:
   jumpAudio: {fileID: 8300000, guid: 67975c08d56ceb147bad38572d805aa8, type: 3}
   respawnAudio: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
   ouchAudio: {fileID: 8300000, guid: 6c05149e5a2fba64ba172e25a61074b7, type: 3}
+  jekyllTheme: {fileID: 8300000, guid: c94b1bc1f5dd1244082d0b12f7a98af6, type: 3}
+  hydeTheme: {fileID: 8300000, guid: 8533b35c241d75f4c86962551ddae8f8, type: 3}
   jekyllSprite: {fileID: -1275780437371994967, guid: 9deb30e899ab3b5469827d51c9d15444,
     type: 3}
   hydeSprite: {fileID: -7659611344755430901, guid: 17b216ca25f83a7489b360447f55c0aa,
@@ -67,6 +69,7 @@ MonoBehaviour:
   collider2d: {fileID: 1824045667}
   boxCollider2d: {fileID: 1824045667}
   audioSource: {fileID: 0}
+  parentaudioSource: {fileID: 0}
   health: {fileID: 0}
   controlEnabled: 1
 --- !u!212 &212064061491315838

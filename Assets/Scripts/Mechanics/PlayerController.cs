@@ -18,6 +18,9 @@ namespace Platformer.Mechanics
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
+        public AudioClip jekyllTheme;
+        public AudioClip hydeTheme;
+
         public Sprite jekyllSprite;
         public Sprite hydeSprite;
 
@@ -44,8 +47,11 @@ namespace Platformer.Mechanics
         public Collider2D collider2d;
         public BoxCollider2D boxCollider2d;
         public AudioSource audioSource;
+        public AudioSource audioSourceParent;
+        public Camera mainCamera;
         public Health health;
         public bool controlEnabled = true;
+        
 
         bool jump;
         Vector2 move;
@@ -62,6 +68,7 @@ namespace Platformer.Mechanics
             collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            audioSourceParent = mainCamera.gameObject.GetComponent<AudioSource>();
         }
 
         protected override void Update()
@@ -154,29 +161,37 @@ namespace Platformer.Mechanics
         {
             controlEnabled = false;
             transformed = !transformed;
-            
             Vector2 newColliderVector = transformed ? new Vector2(0.9f, 1.4f) : new Vector2(0.65f, 1f);
             boxCollider2d.size = newColliderVector;
             animator.SetBool("transformed", transformed);
             animator.SetTrigger("transformTrigger");
-            spriteRenderer.sprite = transformed ? hydeSprite : jekyllSprite;
             switch (transformed)
             {
                 // Hyde code
                 case true:
                     Debug.Log("Transformed into Hyde");
+                    ChangeMusic(hydeTheme);
+                    spriteRenderer.sprite = hydeSprite;
                     maxSpeed = 3;
                     jumpTakeOffSpeed = 3;
                     break;
                 // Jykell code
                 case false:
                     Debug.Log("Transformed into Jykell");
+                    ChangeMusic(jekyllTheme);
+                    spriteRenderer.sprite = jekyllSprite;
                     maxSpeed = 7;
                     jumpTakeOffSpeed = 7;
                     break;
             }
-
             controlEnabled = true;
+        }
+
+        public void ChangeMusic(AudioClip clip)
+        {
+            audioSourceParent.Stop();
+            audioSourceParent.clip = clip;
+            audioSourceParent.Play();
         }
 
         public enum JumpState
