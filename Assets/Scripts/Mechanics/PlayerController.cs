@@ -18,6 +18,14 @@ namespace Platformer.Mechanics
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
+        public Sprite jekyllSprite;
+        public Sprite hydeSprite;
+
+
+        /// <summary>
+        /// Is the Player transformed
+        /// </summary>
+        public bool transformed = false;
         /// <summary>
         /// Max horizontal speed of the player.
         /// </summary>
@@ -29,8 +37,9 @@ namespace Platformer.Mechanics
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
-        /*internal new*/ public Collider2D collider2d;
-        /*internal new*/ public AudioSource audioSource;
+        public Collider2D collider2d;
+        public BoxCollider2D boxCollider2d;
+        public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
 
@@ -60,8 +69,14 @@ namespace Platformer.Mechanics
                     jumpState = JumpState.PrepareToJump;
                 else if (Input.GetButtonUp("Jump"))
                 {
+                    Debug.Log("Jumped");
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
+                }
+                // toogle transform
+                if (Input.GetKeyDown("x"))
+                {
+                    Transform();
                 }
             }
             else
@@ -119,14 +134,35 @@ namespace Platformer.Mechanics
             }
 
             if (move.x > 0.01f)
-                spriteRenderer.flipX = true;
-            else if (move.x < -0.01f)
                 spriteRenderer.flipX = false;
+            else if (move.x < -0.01f)
+                spriteRenderer.flipX = true;
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
             targetVelocity = move * maxSpeed;
+        }
+        
+        protected void Transform()
+        {
+            
+            transformed = !transformed;
+            switch (transformed)
+            {
+                // Hyde code
+                case true:
+                    Debug.Log("Transformed into Hyde");
+                    boxCollider2d.size = new Vector2(0.9f, 1.4f);
+                    break;
+                // Jykell code
+                case false:
+                    Debug.Log("Transformed into Jykell");
+                    boxCollider2d.size = new Vector2(0.65f, 1f);
+                    break;
+            }
+            spriteRenderer.sprite = transformed ? hydeSprite : jekyllSprite;
+            animator.SetBool("transformed", transformed);
         }
 
         public enum JumpState
