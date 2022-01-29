@@ -198,8 +198,6 @@ namespace Platformer.Mechanics
         {
             mainCamera.backgroundColor = transformed ? color2 : color1;
             levelTilemap.color = transformed ? color2 : color1;
-            backgroundTilemap.color = transformed ? color2 : color1;
-            farBackgroundTilemap.color = transformed ? color2 : color1;
         }
         public void ChangeMusic(AudioClip clip)
         {
