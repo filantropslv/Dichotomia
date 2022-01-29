@@ -68,8 +68,7 @@ namespace Platformer.Mechanics
         {
             if (controlEnabled)
             {
-                if (!frozen)
-                    move.x = Input.GetAxis("Horizontal");
+                move.x = Input.GetAxis("Horizontal");
 
                 if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
                     jumpState = JumpState.PrepareToJump;
@@ -153,8 +152,11 @@ namespace Platformer.Mechanics
         
         protected void Transform()
         {
-            frozen = true;
+            controlEnabled = false;
             transformed = !transformed;
+            
+            Vector2 newColliderVector = transformed ? new Vector2(0.9f, 1.4f) : new Vector2(0.65f, 1f);
+            boxCollider2d.size = newColliderVector;
             animator.SetBool("transformed", transformed);
             animator.SetTrigger("transformTrigger");
             spriteRenderer.sprite = transformed ? hydeSprite : jekyllSprite;
@@ -163,23 +165,18 @@ namespace Platformer.Mechanics
                 // Hyde code
                 case true:
                     Debug.Log("Transformed into Hyde");
-                    boxCollider2d.size = new Vector2(0.9f, 1.4f);
                     maxSpeed = 3;
                     jumpTakeOffSpeed = 3;
-                    model.jumpModifier = 1.5f;
-                    model.jumpDeceleration = 0.5f;
                     break;
                 // Jykell code
                 case false:
                     Debug.Log("Transformed into Jykell");
                     maxSpeed = 7;
                     jumpTakeOffSpeed = 7;
-                    model.jumpModifier = 1.5f;
-                    model.jumpDeceleration = 1.5f;
-                    boxCollider2d.size = new Vector2(0.65f, 1f);
                     break;
             }
-            frozen = false;
+
+            controlEnabled = true;
         }
 
         public enum JumpState
