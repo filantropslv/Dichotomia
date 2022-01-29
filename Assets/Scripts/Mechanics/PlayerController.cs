@@ -41,6 +41,7 @@ namespace Platformer.Mechanics
         /// Is the Player frozen
         /// </summary>
         public bool frozen = false;
+        public float musictime = 0f;
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
@@ -189,8 +190,10 @@ namespace Platformer.Mechanics
 
         public void ChangeMusic(AudioClip clip)
         {
+            musictime = audioSourceParent.time;
             audioSourceParent.Stop();
             audioSourceParent.clip = clip;
+            audioSourceParent.time = musictime;
             audioSourceParent.Play();
         }
 
