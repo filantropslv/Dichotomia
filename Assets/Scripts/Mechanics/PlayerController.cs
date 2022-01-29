@@ -60,6 +60,7 @@ namespace Platformer.Mechanics
         public Transform frontCheck;
         public float meleeRange = 0.5f;
 
+
         bool jump;
         Vector2 move;
         SpriteRenderer spriteRenderer;
@@ -97,7 +98,7 @@ namespace Platformer.Mechanics
                 {
                     Transform();
                 }
-                if (Input.GetKeyDown("c"))
+                if (Input.GetKey("c"))
                 {
                     MeleeAttack();
                 }
@@ -216,7 +217,10 @@ namespace Platformer.Mechanics
         }
         private void MeleeAttack()
         {
-            animator.SetTrigger("melee");
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Melee"))
+            {
+                animator.SetTrigger("melee");
+            }
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(frontCheck.position, meleeRange, LayerMask.GetMask("Enemies"));
             foreach (Collider2D enemy in hitEnemies)
             {
