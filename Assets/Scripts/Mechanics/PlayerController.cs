@@ -189,7 +189,7 @@ namespace Platformer.Mechanics
                     Debug.Log("Transformed into Hyde");
                     ChangeMusic(hydeTheme);
                     spriteRenderer.sprite = hydeSprite;
-                    maxSpeed = 3;
+                    maxSpeed = 4;
                     jumpTakeOffSpeed = 6;
                     health.maxHP = 4;
                     StartCoroutine(TransformCountDownCoroutine());
@@ -199,7 +199,7 @@ namespace Platformer.Mechanics
                     Debug.Log("Transformed into Jykell");
                     ChangeMusic(jekyllTheme);
                     spriteRenderer.sprite = jekyllSprite;
-                    maxSpeed = 4f;
+                    maxSpeed = 6f;
                     jumpTakeOffSpeed = 8;
                     health.maxHP = 2;
                     break;

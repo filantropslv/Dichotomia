@@ -70,6 +70,7 @@ namespace Platformer.Mechanics
             }
         }
 
+
         public void EnemyDeathAnimation()
         {
             deathCoroutine = StartCoroutine(EnemyDeathAnimationCoroutine());

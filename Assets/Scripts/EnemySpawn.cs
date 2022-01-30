@@ -9,6 +9,8 @@ public class EnemySpawn : MonoBehaviour
     public int yPos;
     public int enemyCount;
     public int levelIndex = 100;
+    public int lastxPos;
+    public int lastyPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,17 +21,24 @@ public class EnemySpawn : MonoBehaviour
     {
         while (true)
         {
-            if (enemyCount < (int)(levelIndex / 20))
+            if (enemyCount < levelIndex)
             {
-                xPos = Random.Range(-3, 7);
-                yPos = Random.Range(1, 8);
+                lastxPos = xPos;
+                lastyPos = yPos;
+                xPos = Random.Range(0, 24);
+                yPos = Random.Range(10, 41);
+                if (xPos == lastxPos || yPos == lastyPos)
+                {
+                    xPos = Random.Range(0, 24);
+                    yPos = Random.Range(10, 41);
+                }
 
                 Instantiate(theEnemy, new Vector3(xPos, yPos, 0), Quaternion.identity);
                 enemyCount += 1;
                 levelIndex += 2;
             }
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }
