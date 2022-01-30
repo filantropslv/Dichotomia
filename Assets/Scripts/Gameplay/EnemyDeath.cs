@@ -17,7 +17,7 @@ namespace Platformer.Gameplay
             enemy._collider.isTrigger = true;
             //enemy.control.enabled = false;
             enemy.EnemyDeathAnimation();
-            enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
+            EnemySpawn enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
             enemySpawn.enemyCount = enemySpawn.enemyCount - 1;
             if (enemy._audio && enemy.death)
             {
