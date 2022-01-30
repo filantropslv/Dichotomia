@@ -25,13 +25,13 @@ namespace Platformer.Gameplay
             {
                 Schedule<EnemyDeath>().enemy = enemy;
                 EnemySpawn enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
-                enemySpawn.enemyCount = enemySpawn.levelIndex - 2;
+                enemySpawn.levelIndex = enemySpawn.levelIndex - 2;
             }
             else if (enemy.Bounds.center.y > 8)
             {
                 Schedule<EnemyDeath>().enemy = player;
                 EnemySpawn enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
-                enemySpawn.enemyCount = enemySpawn.levelIndex - 2;
+                enemySpawn.levelIndex = enemySpawn.levelIndex - 2;
             }
         }
     }
