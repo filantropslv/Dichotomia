@@ -15,7 +15,7 @@ namespace Platformer.Gameplay
         public override void Execute()
         {
             enemy._collider.isTrigger = true;
-            //enemy.control.enabled = false;
+            
             enemy.EnemyDeathAnimation();
             EnemySpawn enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
             enemySpawn.enemyCount = enemySpawn.enemyCount - 1;

@@ -66,6 +66,8 @@ namespace Platformer.Mechanics
         public int hydeCooldown = 5;
         public int currentHydeCooldown = 5;
         public bool isGettingHurt = false;
+        public Coroutine levelCountdownCoroutine;
+        public int killCount = 0;
 
         bool jump;
         Vector2 move;
@@ -100,7 +102,7 @@ namespace Platformer.Mechanics
                     Schedule<PlayerStopJump>().player = this;
                 }
 
-                if (Input.GetKey("c") && transformed)
+                if (transformed)
                 {
                     MeleeAttack();
                 }
@@ -240,7 +242,10 @@ namespace Platformer.Mechanics
 
         public void StartCountdown()
         {
-            StartCoroutine(CountDownCoroutine());
+            if (levelCountdownCoroutine == null)
+            {
+                levelCountdownCoroutine = StartCoroutine(CountDownCoroutine());
+            }
         }
 
         IEnumerator CountDownCoroutine()
@@ -248,6 +253,7 @@ namespace Platformer.Mechanics
             while (currentCountdown > 0)
             {
                 Debug.Log("CountDownCoroutine " + currentCountdown);
+                Debug.Log("KillCount: " + killCount);
                 currentCountdown--;
                 yield return new WaitForSeconds(1);
             }
@@ -257,6 +263,7 @@ namespace Platformer.Mechanics
         IEnumerator TransformCountDownCoroutine()
         {
             hydeCooldown += 5;
+            hydeCooldown += killCount;
             currentHydeCooldown = hydeCooldown;
             while (currentHydeCooldown > 0)
             {

@@ -19,6 +19,9 @@ namespace Platformer.Mechanics
         public Animator enemyAnimator;
         public Health health;
         public Coroutine deathCoroutine;
+        public bool isDead = false;
+
+
         internal PatrolPath.Mover mover;
         internal Collider2D _collider;
         internal AudioSource _audio;
@@ -41,7 +44,7 @@ namespace Platformer.Mechanics
         void OnCollisionEnter2D(Collision2D collision)
         {
             var player = collision.gameObject.GetComponent<PlayerController>();
-            if (player != null)
+            if (player != null && !player.isGettingHurt)
             {
                 var ev = Schedule<PlayerEnemyCollision>();
                 ev.player = player;
@@ -71,6 +74,7 @@ namespace Platformer.Mechanics
 
         public IEnumerator EnemyDeathAnimationCoroutine()
         {
+            isDead = true;
             enemyAnimator.SetTrigger("death");
             yield return new WaitForSeconds(1f);
             Destroy(this.gameObject);

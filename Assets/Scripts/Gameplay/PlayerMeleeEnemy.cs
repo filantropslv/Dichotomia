@@ -16,10 +16,10 @@ namespace Platformer.Gameplay
         public PlayerController player;
         public override void Execute()
         {
-            if (enemy != null)
+            if (enemy != null && !enemy.isDead)
             { 
                 var enemyHealth = enemy.GetComponent<Health>();
-                player.currentCountdown += 5;
+                player.killCount += 1;
                 if (enemyHealth != null)
                 {
                     enemyHealth.Decrement();
