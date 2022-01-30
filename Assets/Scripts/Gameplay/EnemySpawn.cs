@@ -21,7 +21,7 @@ public class EnemySpawn : MonoBehaviour
     {
         while (true)
         {
-            if (enemyCount < levelIndex)
+            if (enemyCount < (levelIndex / 10))
             {
                 lastxPos = xPos;
                 lastyPos = yPos;
