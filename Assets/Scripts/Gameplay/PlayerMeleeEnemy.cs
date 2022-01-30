@@ -15,21 +15,24 @@ namespace Platformer.Gameplay
         public EnemyController enemy;
         public override void Execute()
         {
-            var enemyHealth = enemy.GetComponent<Health>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.Decrement();
-                if (!enemyHealth.IsAlive)
+            if (enemy != null)
+            { 
+                var enemyHealth = enemy.GetComponent<Health>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.Decrement();
+                    if (!enemyHealth.IsAlive)
+                    {
+                        Schedule<EnemyDeath>().enemy = enemy;
+                    } else
+                    {
+                        enemy.enemyAnimator.SetTrigger("hurt");
+                    }
+                }
+                else
                 {
                     Schedule<EnemyDeath>().enemy = enemy;
-                } else
-                {
-                    enemy.enemyAnimator.SetTrigger("hurt");
                 }
-            }
-            else
-            {
-                Schedule<EnemyDeath>().enemy = enemy;
             }
         }
     }

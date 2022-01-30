@@ -11,18 +11,17 @@ namespace Platformer.Gameplay
     public class EnemyDeath : Simulation.Event<EnemyDeath>
     {
         public EnemyController enemy;
-        public EnemySpawn enemySpawn;
 
         public override void Execute()
         {
             enemy._collider.isTrigger = true;
             //enemy.control.enabled = false;
             enemy.EnemyDeathAnimation();
-            enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
+            EnemySpawn enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
             enemySpawn.enemyCount = enemySpawn.enemyCount - 1;
-            if (enemy._audio && enemy.ouch)
+            if (enemy._audio && enemy.death)
             {
-                enemy._audio.PlayOneShot(enemy.ouch);
+                enemy._audio.PlayOneShot(enemy.death);
             }
         }
     }

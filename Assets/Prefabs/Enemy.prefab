@@ -162,7 +162,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: {fileID: 0}
-  ouch: {fileID: 8300000, guid: b7f741588644cd64bbee6387cb54a96d, type: 3}
+  ouch: {fileID: 8300000, guid: 6c05149e5a2fba64ba172e25a61074b7, type: 3}
+  death: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
+  control: {fileID: 0}
+  enemyAnimator: {fileID: 0}
+  health: {fileID: 0}
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0

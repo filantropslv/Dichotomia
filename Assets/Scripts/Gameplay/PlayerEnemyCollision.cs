@@ -27,6 +27,7 @@ namespace Platformer.Gameplay
                 var enemyHealth = enemy.GetComponent<Health>();
                 if (enemyHealth != null)
                 {
+                    enemy.enemyAnimator.SetTrigger("hurt");
                     enemyHealth.Decrement();
                     if (!enemyHealth.IsAlive)
                     {
@@ -44,9 +45,32 @@ namespace Platformer.Gameplay
                     player.Bounce(2);
                 }
             }
-            else
+            else if (!player.isGettingHurt)
             {
-                Schedule<PlayerDeath>();
+                player.isGettingHurt = true;
+                var playerHealth = player.GetComponent<Health>();
+                Debug.Log("currentHp: " + playerHealth.currentHP + " MaxHP: " + playerHealth.maxHP);
+                if (playerHealth != null)
+                {
+                    player.animator.SetTrigger("hurt");
+                    playerHealth.Decrement();
+                    Debug.Log("IsAlive: " + playerHealth.IsAlive);
+                    if (playerHealth.LowHealth && !player.transformed)
+                    {
+                        player.Transform();
+                        // todo knockback enemies
+                    }
+                    player.isGettingHurt = false;
+                    if (!playerHealth.IsAlive)
+                    {
+                        Schedule<PlayerDeath>();
+                    }
+                }
+                else
+                {
+                    player.isGettingHurt = false;
+                    Schedule<PlayerDeath>();
+                }
             }
         }
     }

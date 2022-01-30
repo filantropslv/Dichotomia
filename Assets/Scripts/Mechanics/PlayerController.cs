@@ -18,6 +18,7 @@ namespace Platformer.Mechanics
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
+        public AudioClip deathAudio;
 
         public AudioClip jekyllTheme;
         public AudioClip hydeTheme;
@@ -53,13 +54,15 @@ namespace Platformer.Mechanics
         public Camera mainCamera;
         public Health health;
         public bool controlEnabled = true;
+
         public Color color1 = Color.red;
         public Color color2 = Color.blue;
         public float duration = 3.0F;
         public Tilemap[] levelTilemaps;
         public Transform frontCheck;
         public float meleeRange = 0.5f;
-
+        public int transformationCooldown = 30;
+        public bool isGettingHurt = false;
 
         bool jump;
         Vector2 move;
@@ -93,12 +96,8 @@ namespace Platformer.Mechanics
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
-                // toogle transform
-                if (Input.GetKeyDown("x"))
-                {
-                    Transform();
-                }
-                if (Input.GetKey("c"))
+
+                if (Input.GetKey("c") && transformed)
                 {
                     MeleeAttack();
                 }
@@ -168,8 +167,8 @@ namespace Platformer.Mechanics
 
             targetVelocity = move * maxSpeed;
         }
-        
-        protected void Transform()
+
+        public void Transform()
         {
             controlEnabled = false;
             transformed = !transformed;
@@ -186,6 +185,8 @@ namespace Platformer.Mechanics
                     spriteRenderer.sprite = hydeSprite;
                     maxSpeed = 3;
                     jumpTakeOffSpeed = 6;
+                    health.maxHP = 4;
+
                     break;
                 // Jykell code
                 case false:
@@ -194,8 +195,12 @@ namespace Platformer.Mechanics
                     spriteRenderer.sprite = jekyllSprite;
                     maxSpeed = 4f;
                     jumpTakeOffSpeed = 8;
+                    health.maxHP = 2;
                     break;
             }
+            health.isRegenerating = transformed;
+            health.DecrementByValue(0);
+            health.ToggleRegen();
             ChangeBackgroundColor();
             controlEnabled = true;
         }
@@ -215,7 +220,7 @@ namespace Platformer.Mechanics
             audioSourceParent.time = musictime;
             audioSourceParent.Play();
         }
-        private void MeleeAttack()
+        public void MeleeAttack()
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Melee"))
             {
