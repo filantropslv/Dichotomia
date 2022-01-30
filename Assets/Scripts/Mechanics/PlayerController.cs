@@ -71,20 +71,20 @@ namespace Platformer.Mechanics
         public Coroutine levelCountdownCoroutine;
         public int killCount = 0;
         public int stressMeter = 0;
+        public bool enemyInSigth = false;
 
-        public Text Health;
-        public Text Stress;
-        public Text Kills;
-        public Text HydeCooldown;
         public Text GlobalCooldown;
+        public Text KillCounter;
+
+        public Button[] hydeCooldownBar;
+        public Button[] stressMeterBar;
+
+
 
         void UpdateText()
         {
-            Health.text = String.Format("Health: {0}", health.currentHP).ToString();
-            Stress.text = String.Format("Stress: {0}", stressMeter).ToString();
-            Kills.text = String.Format("Kills: {0}", killCount).ToString();
-            HydeCooldown.text = String.Format("Hyde: transform: {0}", currentHydeCooldown).ToString(); ;
-            GlobalCooldown.text = String.Format("Survive as Jekyll until: {0}", currentCountdown).ToString();
+            GlobalCooldown.text = String.Format("{0}", currentCountdown).ToString();
+            KillCounter.text = String.Format("{0}", killCount).ToString();
         }
 
         bool jump;
@@ -104,6 +104,7 @@ namespace Platformer.Mechanics
             animator = GetComponent<Animator>();
             audioSourceParent = mainCamera.gameObject.GetComponent<AudioSource>();
             StartCountdown();
+            StartCoroutine(StressReliefCoroutine());
         }
 
         protected override void Update()
@@ -121,7 +122,7 @@ namespace Platformer.Mechanics
                     Schedule<PlayerStopJump>().player = this;
                 }
 
-                if (transformed)
+                if (transformed && enemyInSigth)
                 {
                     MeleeAttack();
                 }
@@ -268,12 +269,66 @@ namespace Platformer.Mechanics
             }
         }
 
+
         IEnumerator CountDownCoroutine()
         {
+            
             while (currentCountdown > 0)
             {
-                Debug.Log("CountDownCoroutine " + currentCountdown);
                 Debug.Log("stressMeter: " + stressMeter);
+                if (stressMeter == 0)
+                {
+                    stressMeterBar[1].gameObject.SetActive(false);
+                    stressMeterBar[2].gameObject.SetActive(false);
+                    stressMeterBar[3].gameObject.SetActive(false);
+                    stressMeterBar[4].gameObject.SetActive(false);
+                    stressMeterBar[5].gameObject.SetActive(false);
+                }
+                if (stressMeter > 0)
+                {
+                    stressMeterBar[1].gameObject.SetActive(true);
+                    stressMeterBar[2].gameObject.SetActive(false);
+                    stressMeterBar[3].gameObject.SetActive(false);
+                    stressMeterBar[4].gameObject.SetActive(false);
+                    stressMeterBar[5].gameObject.SetActive(false);
+                }
+
+                if (stressMeter > 20)
+                {
+                    stressMeterBar[1].gameObject.SetActive(true);
+                    stressMeterBar[2].gameObject.SetActive(true);
+                    stressMeterBar[3].gameObject.SetActive(false);
+                    stressMeterBar[4].gameObject.SetActive(false);
+                    stressMeterBar[5].gameObject.SetActive(false);
+                }
+
+                if (stressMeter > 40)
+                {
+                    stressMeterBar[1].gameObject.SetActive(true);
+                    stressMeterBar[2].gameObject.SetActive(true);
+                    stressMeterBar[3].gameObject.SetActive(true);
+                    stressMeterBar[4].gameObject.SetActive(false);
+                    stressMeterBar[5].gameObject.SetActive(false);
+                }
+                
+                if (stressMeter > 60)
+                {
+                    stressMeterBar[1].gameObject.SetActive(true);
+                    stressMeterBar[2].gameObject.SetActive(true);
+                    stressMeterBar[3].gameObject.SetActive(true);
+                    stressMeterBar[4].gameObject.SetActive(true);
+                    stressMeterBar[5].gameObject.SetActive(false);
+                }
+
+                if (stressMeter > 80)
+                {
+                    stressMeterBar[1].gameObject.SetActive(true);
+                    stressMeterBar[2].gameObject.SetActive(true);
+                    stressMeterBar[3].gameObject.SetActive(true);
+                    stressMeterBar[4].gameObject.SetActive(true);
+                    stressMeterBar[5].gameObject.SetActive(true);
+                }
+
                 currentCountdown--;
                 if (stressMeter >= 100 && !transformed)
                 {
@@ -286,22 +341,68 @@ namespace Platformer.Mechanics
 
         IEnumerator TransformCountDownCoroutine()
         {
-            hydeCooldown += 5;
-            hydeCooldown += killCount;
+            hydeCooldown += 15;
             currentHydeCooldown = hydeCooldown;
+
+            hydeCooldownBar[4].gameObject.SetActive(false);
             while (currentHydeCooldown > 0)
             {
-                Debug.Log("TransformCountDownCoroutine " + currentHydeCooldown);
+                var percentage = ((float)currentHydeCooldown / hydeCooldown) * 100f;
+                if (percentage > 75)
+                {
+                    hydeCooldownBar[1].gameObject.SetActive(true);
+                    hydeCooldownBar[2].gameObject.SetActive(false);
+                    hydeCooldownBar[3].gameObject.SetActive(false);
+                    hydeCooldownBar[4].gameObject.SetActive(false);
+                } 
+                else if (percentage > 50)
+                {
+                    hydeCooldownBar[1].gameObject.SetActive(true);
+                    hydeCooldownBar[2].gameObject.SetActive(true);
+                    hydeCooldownBar[3].gameObject.SetActive(false);
+                    hydeCooldownBar[4].gameObject.SetActive(false);
+                }
+                else if (percentage > 25)
+                {
+                    hydeCooldownBar[1].gameObject.SetActive(true);
+                    hydeCooldownBar[2].gameObject.SetActive(true);
+                    hydeCooldownBar[3].gameObject.SetActive(true);
+                    hydeCooldownBar[4].gameObject.SetActive(false);
+                }
+
+                
                 currentHydeCooldown--;
                 yield return new WaitForSeconds(1);
             }
+            hydeCooldownBar[1].gameObject.SetActive(false);
+            hydeCooldownBar[2].gameObject.SetActive(false);
+            hydeCooldownBar[3].gameObject.SetActive(false);
+            hydeCooldownBar[4].gameObject.SetActive(false);
             Transform();
             Debug.Log("TransformCountDownCoroutine Ended");
         }
         public void IncreaseStress(int value = 0)
         {
-            Debug.Log("Stress Increased!!!");
+            enemyInSigth = true;
             stressMeter += value;
+        }
+
+        IEnumerator StressReliefCoroutine()
+        {
+            while (true)
+            {
+                if (stressMeter > 0)
+                {
+                    stressMeter -= 1;
+                }
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        public void DecreaseStress(int value = 0)
+        {
+            enemyInSigth = false;
+            stressMeter -= value;
         }
 
         public enum JumpState
