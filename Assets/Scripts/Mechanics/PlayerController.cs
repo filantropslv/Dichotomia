@@ -5,6 +5,7 @@ using Platformer.Gameplay;
 using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
+using UnityEngine.Tilemaps;
 
 namespace Platformer.Mechanics
 {
@@ -53,9 +54,7 @@ namespace Platformer.Mechanics
         public Camera mainCamera;
         public Health health;
         public bool controlEnabled = true;
-<<<<<<< Updated upstream
-        
-=======
+
         public Color color1 = Color.red;
         public Color color2 = Color.blue;
         public float duration = 3.0F;
@@ -63,10 +62,6 @@ namespace Platformer.Mechanics
         public Transform frontCheck;
         public float meleeRange = 0.5f;
         public int transformationCooldown = 30;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
         bool jump;
         Vector2 move;
@@ -100,20 +95,10 @@ namespace Platformer.Mechanics
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                // toogle transform
-                if (Input.GetKeyDown("x"))
-                {
-                    Transform();
-=======
-=======
->>>>>>> Stashed changes
 
                 if (Input.GetKey("c") && transformed)
                 {
                     MeleeAttack();
->>>>>>> Stashed changes
                 }
             }
             else
@@ -226,11 +211,6 @@ namespace Platformer.Mechanics
             audioSourceParent.time = musictime;
             audioSourceParent.Play();
         }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
         public void MeleeAttack()
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Melee"))
@@ -244,7 +224,6 @@ namespace Platformer.Mechanics
                 ev.enemy = enemy.gameObject.GetComponent<EnemyController>();
             }
         }
->>>>>>> Stashed changes
 
         public enum JumpState
         {

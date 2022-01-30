@@ -39,14 +39,16 @@ namespace Platformer.Mechanics
         /// </summary>
         public void Decrement()
         {
-            Debug.Log(" HURT: currentHp: " + currentHP + " MaxHP: " + maxHP);
+            Debug.Log(" Decrement: currentHp: " + currentHP + " MaxHP: " + maxHP);
             currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
-            if (currentHP == 0)
-            {
-                var ev = Schedule<HealthIsZero>();
-                ev.health = this;
-            }
         }
+
+        public void DecrementByValue(int value)
+        {
+            Debug.Log(" DecrementByValue: currentHp: " + currentHP + " MaxHP: " + maxHP);
+            currentHP = Mathf.Clamp(currentHP - value, 0, maxHP);
+        }
+        
 
         /// <summary>
         /// Decrement the HP of the entitiy until HP reaches 0.

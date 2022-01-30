@@ -17,6 +17,7 @@ namespace Platformer.Mechanics
         public AudioClip death;
         public AnimationController control;
         public Animator enemyAnimator;  
+        public Health health;
         internal PatrolPath.Mover mover;
         internal Collider2D _collider;
         internal AudioSource _audio;
@@ -32,14 +33,10 @@ namespace Platformer.Mechanics
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             enemyAnimator = GetComponent<Animator>();
-<<<<<<< Updated upstream
-=======
+
             health = GetComponent<Health>();
             StartCoroutine(EnemyDeathAnimationCoroutine());
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -51,14 +48,12 @@ namespace Platformer.Mechanics
                 ev.player = player;
                 ev.enemy = this;
             }
-<<<<<<< Updated upstream
-=======
+
             var enemy = collision.gameObject.GetComponent<EnemyController>();
             if (enemy != null)
             {
                 Physics2D.IgnoreCollision(enemy.gameObject.GetComponent<Collider2D>(), this._collider);
             }
->>>>>>> Stashed changes
         }
 
         void Update()

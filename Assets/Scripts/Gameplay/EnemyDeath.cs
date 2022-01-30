@@ -17,17 +17,12 @@ namespace Platformer.Gameplay
             enemy._collider.isTrigger = true;
             //enemy.control.enabled = false;
             enemy.EnemyDeathAnimation();
-<<<<<<< Updated upstream
-            if (enemy._audio && enemy.ouch)
-                enemy._audio.PlayOneShot(enemy.ouch);
-=======
             enemySpawn = GameObject.FindObjectOfType<EnemySpawn>();
             enemySpawn.enemyCount = enemySpawn.enemyCount - 1;
             if (enemy._audio && enemy.death)
             {
                 enemy._audio.PlayOneShot(enemy.death, 2);
             }
->>>>>>> Stashed changes
         }
     }
 }
