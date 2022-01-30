@@ -41,13 +41,11 @@ namespace Platformer.Mechanics
         /// </summary>
         public void Decrement()
         {
-            Debug.Log(" Decrement: currentHp: " + currentHP + " MaxHP: " + maxHP);
             currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
         }
 
         public void DecrementByValue(int value)
         {
-            Debug.Log(" DecrementByValue: currentHp: " + currentHP + " MaxHP: " + maxHP);
             currentHP = Mathf.Clamp(currentHP - value, 0, maxHP);
         }
 
@@ -84,7 +82,6 @@ namespace Platformer.Mechanics
         {
             while (true)
             {
-                Debug.Log("Regenerating " + isRegenerating);
                 if (isRegenerating)
                 {
                     Increment();

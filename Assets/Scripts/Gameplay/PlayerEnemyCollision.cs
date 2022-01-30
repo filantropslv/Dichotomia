@@ -45,20 +45,19 @@ namespace Platformer.Gameplay
                     player.Bounce(2);
                 }
             }
-            else if (!player.isGettingHurt)
+            else if (!player.isGettingHurt && player.controlEnabled)
             {
                 player.isGettingHurt = true;
                 var playerHealth = player.GetComponent<Health>();
-                Debug.Log("currentHp: " + playerHealth.currentHP + " MaxHP: " + playerHealth.maxHP);
                 if (playerHealth != null)
                 {
                     player.animator.SetTrigger("hurt");
                     playerHealth.Decrement();
-                    Debug.Log("IsAlive: " + playerHealth.IsAlive);
                     if (playerHealth.LowHealth && !player.transformed)
                     {
+                        player.collider2d.isTrigger = true;
                         player.Transform();
-                        // todo knockback enemies
+                        player.collider2d.isTrigger = false;
                     }
                     player.isGettingHurt = false;
                     if (!playerHealth.IsAlive)

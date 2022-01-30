@@ -13,11 +13,13 @@ namespace Platformer.Gameplay
     public class PlayerMeleeEnemy : Simulation.Event<PlayerMeleeEnemy>
     {
         public EnemyController enemy;
+        public PlayerController player;
         public override void Execute()
         {
             if (enemy != null)
             { 
                 var enemyHealth = enemy.GetComponent<Health>();
+                player.currentCountdown += 5;
                 if (enemyHealth != null)
                 {
                     enemyHealth.Decrement();

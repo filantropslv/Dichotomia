@@ -61,7 +61,10 @@ namespace Platformer.Mechanics
         public Tilemap[] levelTilemaps;
         public Transform frontCheck;
         public float meleeRange = 0.5f;
-        public int transformationCooldown = 30;
+        public int transformationCooldown = 90;
+        public int currentCountdown = 90;
+        public int hydeCooldown = 5;
+        public int currentHydeCooldown = 5;
         public bool isGettingHurt = false;
 
         bool jump;
@@ -80,6 +83,7 @@ namespace Platformer.Mechanics
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             audioSourceParent = mainCamera.gameObject.GetComponent<AudioSource>();
+            StartCountdown();
         }
 
         protected override void Update()
@@ -92,7 +96,6 @@ namespace Platformer.Mechanics
                     jumpState = JumpState.PrepareToJump;
                 else if (Input.GetButtonUp("Jump"))
                 {
-                    Debug.Log("Jumped");
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
@@ -186,7 +189,7 @@ namespace Platformer.Mechanics
                     maxSpeed = 3;
                     jumpTakeOffSpeed = 6;
                     health.maxHP = 4;
-
+                    StartCoroutine(TransformCountDownCoroutine());
                     break;
                 // Jykell code
                 case false:
@@ -231,7 +234,38 @@ namespace Platformer.Mechanics
             {
                 var ev = Schedule<PlayerMeleeEnemy>();
                 ev.enemy = enemy.gameObject.GetComponent<EnemyController>();
+                ev.player = this;
             }
+        }
+
+        public void StartCountdown()
+        {
+            StartCoroutine(CountDownCoroutine());
+        }
+
+        IEnumerator CountDownCoroutine()
+        {
+            while (currentCountdown > 0)
+            {
+                Debug.Log("CountDownCoroutine " + currentCountdown);
+                currentCountdown--;
+                yield return new WaitForSeconds(1);
+            }
+            Debug.Log("CountDownCoroutine Ended Gameover");
+        }
+
+        IEnumerator TransformCountDownCoroutine()
+        {
+            hydeCooldown += 5;
+            currentHydeCooldown = hydeCooldown;
+            while (currentHydeCooldown > 0)
+            {
+                Debug.Log("TransformCountDownCoroutine " + currentHydeCooldown);
+                currentHydeCooldown--;
+                yield return new WaitForSeconds(1);
+            }
+            Transform();
+            Debug.Log("TransformCountDownCoroutine Ended");
         }
 
         public enum JumpState
