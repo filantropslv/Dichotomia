@@ -22,11 +22,12 @@ namespace Platformer.Gameplay
         {
             var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
 
-            if (willHurtEnemy)
+            if (willHurtEnemy && !enemy.isDead)
             {
                 var enemyHealth = enemy.GetComponent<Health>();
                 if (enemyHealth != null)
                 {
+                    enemy.enemyAnimator.SetTrigger("hurt");
                     enemyHealth.Decrement();
                     if (!enemyHealth.IsAlive)
                     {
@@ -44,9 +45,31 @@ namespace Platformer.Gameplay
                     player.Bounce(2);
                 }
             }
-            else
+            else if (!player.isGettingHurt && player.controlEnabled)
             {
-                Schedule<PlayerDeath>();
+                player.isGettingHurt = true;
+                var playerHealth = player.GetComponent<Health>();
+                if (playerHealth != null)
+                {
+                    player.animator.SetTrigger("hurt");
+                    playerHealth.Decrement();
+                    if (playerHealth.LowHealth && !player.transformed)
+                    {
+                        player.collider2d.isTrigger = true;
+                        player.Transform();
+                        player.collider2d.isTrigger = false;
+                    }
+                    player.isGettingHurt = false;
+                    if (!playerHealth.IsAlive)
+                    {
+                        Schedule<PlayerDeath>();
+                    }
+                }
+                else
+                {
+                    player.isGettingHurt = false;
+                    Schedule<PlayerDeath>();
+                }
             }
         }
     }

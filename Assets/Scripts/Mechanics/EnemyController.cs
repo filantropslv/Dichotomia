@@ -14,14 +14,20 @@ namespace Platformer.Mechanics
     {
         public PatrolPath path;
         public AudioClip ouch;
+        public AudioClip death;
         public AnimationController control;
         public Animator enemyAnimator;
         public Health health;
+        public Coroutine deathCoroutine;
+        public Coroutine spottedCoroutine;
+        public bool isDead = false;
+        public GameObject player;
+
+
         internal PatrolPath.Mover mover;
         internal Collider2D _collider;
         internal AudioSource _audio;
         SpriteRenderer spriteRenderer;
-        internal bool isPlayingDeathAnimation = false;
 
         public Bounds Bounds => _collider.bounds;
 
@@ -32,22 +38,25 @@ namespace Platformer.Mechanics
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             enemyAnimator = GetComponent<Animator>();
+
             health = GetComponent<Health>();
+            StartWatch();
+
         }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
             var player = collision.gameObject.GetComponent<PlayerController>();
-            if (player != null)
+            if (player != null && !player.isGettingHurt)
             {
                 var ev = Schedule<PlayerEnemyCollision>();
                 ev.player = player;
                 ev.enemy = this;
             }
+
             var enemy = collision.gameObject.GetComponent<EnemyController>();
             if (enemy != null)
             {
-                Debug.Log("test");
                 Physics2D.IgnoreCollision(enemy.gameObject.GetComponent<Collider2D>(), this._collider);
             }
         }
@@ -63,17 +72,37 @@ namespace Platformer.Mechanics
 
         public void EnemyDeathAnimation()
         {
-            StartCoroutine(EnemyDeathAnimationCoroutine());
+            deathCoroutine = StartCoroutine(EnemyDeathAnimationCoroutine());
         }
 
         public IEnumerator EnemyDeathAnimationCoroutine()
         {
-            isPlayingDeathAnimation = true;
+            isDead = true;
             enemyAnimator.SetTrigger("death");
             yield return new WaitForSeconds(1f);
             Destroy(this.gameObject);
-            isPlayingDeathAnimation = false;
+        }
+        public void StartWatch()
+        {
+            if (spottedCoroutine == null)
+            {
+                spottedCoroutine = StartCoroutine(StartWatchCoroutine());
+            }
         }
 
+        IEnumerator StartWatchCoroutine()
+        {
+            while (this.gameObject != null)
+            {
+                var distance = Vector3.Distance(player.transform.position, this.transform.position);
+
+                if (distance < 5)
+                {
+                    player.GetComponent<PlayerController>().IncreaseStress(1);
+                }
+
+                yield return new WaitForSeconds(1);
+            }
+        }
     }
 }

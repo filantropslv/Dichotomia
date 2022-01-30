@@ -13,23 +13,28 @@ namespace Platformer.Gameplay
     public class PlayerMeleeEnemy : Simulation.Event<PlayerMeleeEnemy>
     {
         public EnemyController enemy;
+        public PlayerController player;
         public override void Execute()
         {
-            var enemyHealth = enemy.GetComponent<Health>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.Decrement();
-                if (!enemyHealth.IsAlive)
+            if (enemy != null && !enemy.isDead)
+            { 
+                var enemyHealth = enemy.GetComponent<Health>();
+                player.killCount += 1;
+                if (enemyHealth != null)
+                {
+                    enemyHealth.Decrement();
+                    if (!enemyHealth.IsAlive)
+                    {
+                        Schedule<EnemyDeath>().enemy = enemy;
+                    } else
+                    {
+                        enemy.enemyAnimator.SetTrigger("hurt");
+                    }
+                }
+                else
                 {
                     Schedule<EnemyDeath>().enemy = enemy;
-                } else
-                {
-                    enemy.enemyAnimator.SetTrigger("hurt");
                 }
-            }
-            else
-            {
-                Schedule<EnemyDeath>().enemy = enemy;
             }
         }
     }
