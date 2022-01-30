@@ -17,6 +17,7 @@ namespace Platformer.Mechanics
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
+        public AudioClip deathAudio;
 
         public AudioClip jekyllTheme;
         public AudioClip hydeTheme;
@@ -52,7 +53,17 @@ namespace Platformer.Mechanics
         public Camera mainCamera;
         public Health health;
         public bool controlEnabled = true;
+<<<<<<< Updated upstream
         
+=======
+        public Color color1 = Color.red;
+        public Color color2 = Color.blue;
+        public float duration = 3.0F;
+        public Tilemap[] levelTilemaps;
+        public Transform frontCheck;
+        public float meleeRange = 0.5f;
+        public int transformationCooldown = 30;
+>>>>>>> Stashed changes
 
         bool jump;
         Vector2 move;
@@ -86,10 +97,17 @@ namespace Platformer.Mechanics
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
+<<<<<<< Updated upstream
                 // toogle transform
                 if (Input.GetKeyDown("x"))
                 {
                     Transform();
+=======
+
+                if (Input.GetKey("c") && transformed)
+                {
+                    MeleeAttack();
+>>>>>>> Stashed changes
                 }
             }
             else
@@ -158,7 +176,7 @@ namespace Platformer.Mechanics
             targetVelocity = move * maxSpeed;
         }
         
-        protected void Transform()
+        public void Transform()
         {
             controlEnabled = false;
             transformed = !transformed;
@@ -175,6 +193,9 @@ namespace Platformer.Mechanics
                     spriteRenderer.sprite = hydeSprite;
                     maxSpeed = 3;
                     jumpTakeOffSpeed = 6;
+                    health.maxHP = 4;
+                    health.isRegenerating = true;
+                    health.DecrementByValue(0);
                     break;
                 // Jykell code
                 case false:
@@ -183,6 +204,9 @@ namespace Platformer.Mechanics
                     spriteRenderer.sprite = jekyllSprite;
                     maxSpeed = 4f;
                     jumpTakeOffSpeed = 8;
+                    health.maxHP = 2;
+                    health.isRegenerating = false;
+                    health.DecrementByValue(0);
                     break;
             }
             controlEnabled = true;
@@ -196,6 +220,22 @@ namespace Platformer.Mechanics
             audioSourceParent.time = musictime;
             audioSourceParent.Play();
         }
+<<<<<<< Updated upstream
+=======
+        public void MeleeAttack()
+        {
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Melee"))
+            {
+                animator.SetTrigger("melee");
+            }
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(frontCheck.position, meleeRange, LayerMask.GetMask("Enemies"));
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                var ev = Schedule<PlayerMeleeEnemy>();
+                ev.enemy = enemy.gameObject.GetComponent<EnemyController>();
+            }
+        }
+>>>>>>> Stashed changes
 
         public enum JumpState
         {

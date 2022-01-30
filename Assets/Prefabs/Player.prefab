@@ -55,6 +55,7 @@ MonoBehaviour:
   jumpAudio: {fileID: 8300000, guid: 67975c08d56ceb147bad38572d805aa8, type: 3}
   respawnAudio: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
   ouchAudio: {fileID: 8300000, guid: 6c05149e5a2fba64ba172e25a61074b7, type: 3}
+  deathAudio: {fileID: 8300000, guid: e18959d46b63f3c4c8cc020a433cf848, type: 3}
   jekyllTheme: {fileID: 8300000, guid: c94b1bc1f5dd1244082d0b12f7a98af6, type: 3}
   hydeTheme: {fileID: 8300000, guid: 8533b35c241d75f4c86962551ddae8f8, type: 3}
   jekyllSprite: {fileID: -1275780437371994967, guid: 9deb30e899ab3b5469827d51c9d15444,
@@ -71,7 +72,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   audioSourceParent: {fileID: 0}
   mainCamera: {fileID: 0}
-  health: {fileID: 0}
+  health: {fileID: 6082575806313374961}
   controlEnabled: 1
 --- !u!212 &212064061491315838
 SpriteRenderer:
@@ -273,7 +274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffad43bb006db4856a9c527b89b48db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 1
+  maxHP: 2
+  currentHP: 0
+  isRegenerating: 0
 --- !u!61 &1824045667
 BoxCollider2D:
   m_ObjectHideFlags: 0

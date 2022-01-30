@@ -27,6 +27,7 @@ namespace Platformer.Gameplay
                 var enemyHealth = enemy.GetComponent<Health>();
                 if (enemyHealth != null)
                 {
+                    enemy.enemyAnimator.SetTrigger("hurt");
                     enemyHealth.Decrement();
                     if (!enemyHealth.IsAlive)
                     {
@@ -46,7 +47,27 @@ namespace Platformer.Gameplay
             }
             else
             {
-                Schedule<PlayerDeath>();
+                
+                var playerHealth = player.GetComponent<Health>();
+                Debug.Log("currentHp: " + playerHealth.currentHP + " MaxHP: " + playerHealth.maxHP);
+                if (playerHealth != null)
+                {
+                    player.animator.SetTrigger("hurt");
+                    playerHealth.Decrement();
+                    Debug.Log("IsAlive: " + playerHealth.IsAlive);
+                    if (playerHealth.LowHealth && !player.transformed)
+                    {
+                        player.Transform();
+                    }
+                    if (!playerHealth.IsAlive)
+                    {
+                        Schedule<PlayerDeath>();
+                    }
+                }
+                else
+                {
+                    Schedule<PlayerDeath>();
+                }
             }
         }
     }

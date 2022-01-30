@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Platformer.Gameplay;
 using UnityEngine;
 using static Platformer.Core.Simulation;
@@ -13,14 +14,16 @@ namespace Platformer.Mechanics
         /// <summary>
         /// The maximum hit points for the entity.
         /// </summary>
-        public int maxHP = 1;
+        public int maxHP = 2;
+        public int currentHP;
 
         /// <summary>
         /// Indicates if the entity should be considered 'alive'.
         /// </summary>
         public bool IsAlive => currentHP > 0;
+        public bool LowHealth => currentHP == 1;
 
-        int currentHP;
+        public bool isRegenerating = false;
 
         /// <summary>
         /// Increment the HP of the entity.
@@ -36,6 +39,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public void Decrement()
         {
+            Debug.Log(" HURT: currentHp: " + currentHP + " MaxHP: " + maxHP);
             currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
             if (currentHP == 0)
             {
@@ -55,6 +59,25 @@ namespace Platformer.Mechanics
         void Awake()
         {
             currentHP = maxHP;
+            StartCoroutine(RegenerateCoroutine());
+        }
+
+        private void Update()
+        {
+            //Debug.Log("currentHp: " + currentHP + " MaxHP: " + maxHP);
+        }
+
+        IEnumerator RegenerateCoroutine()
+        {
+            while (true)
+            {
+                if (isRegenerating)
+                {
+                    Increment();
+                }
+                yield return new WaitForSeconds(3);
+
+            }
         }
     }
 }

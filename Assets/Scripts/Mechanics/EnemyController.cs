@@ -14,6 +14,7 @@ namespace Platformer.Mechanics
     {
         public PatrolPath path;
         public AudioClip ouch;
+        public AudioClip death;
         public AnimationController control;
         public Animator enemyAnimator;  
         internal PatrolPath.Mover mover;
@@ -31,6 +32,11 @@ namespace Platformer.Mechanics
             _audio = GetComponent<AudioSource>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             enemyAnimator = GetComponent<Animator>();
+<<<<<<< Updated upstream
+=======
+            health = GetComponent<Health>();
+            StartCoroutine(EnemyDeathAnimationCoroutine());
+>>>>>>> Stashed changes
         }
 
         void OnCollisionEnter2D(Collision2D collision)
@@ -42,6 +48,14 @@ namespace Platformer.Mechanics
                 ev.player = player;
                 ev.enemy = this;
             }
+<<<<<<< Updated upstream
+=======
+            var enemy = collision.gameObject.GetComponent<EnemyController>();
+            if (enemy != null)
+            {
+                Physics2D.IgnoreCollision(enemy.gameObject.GetComponent<Collider2D>(), this._collider);
+            }
+>>>>>>> Stashed changes
         }
 
         void Update()
@@ -55,16 +69,20 @@ namespace Platformer.Mechanics
 
         public void EnemyDeathAnimation()
         {
-            StartCoroutine(EnemyDeathAnimationCoroutine());
+            isPlayingDeathAnimation = true;
         }
 
         public IEnumerator EnemyDeathAnimationCoroutine()
         {
-            isPlayingDeathAnimation = true;
-            enemyAnimator.SetTrigger("death");
-            yield return new WaitForSeconds(1f);
-            Destroy(this.gameObject);
-            isPlayingDeathAnimation = false;
+            while (true && this.gameObject.activeSelf)
+            {
+                if (isPlayingDeathAnimation)
+                {
+                    enemyAnimator.SetTrigger("death");
+                    yield return new WaitForSeconds(1f);
+                    Destroy(this.gameObject);
+                }
+            }
         }
 
     }
