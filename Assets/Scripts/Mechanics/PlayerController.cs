@@ -6,6 +6,8 @@ using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
+using System;
 
 namespace Platformer.Mechanics
 {
@@ -70,6 +72,21 @@ namespace Platformer.Mechanics
         public int killCount = 0;
         public int stressMeter = 0;
 
+        public Text Health;
+        public Text Stress;
+        public Text Kills;
+        public Text HydeCooldown;
+        public Text GlobalCooldown;
+
+        void UpdateText()
+        {
+            Health.text = String.Format("Health: {0}", health.currentHP).ToString();
+            Stress.text = String.Format("Stress: {0}", stressMeter).ToString();
+            Kills.text = String.Format("Kills: {0}", killCount).ToString();
+            HydeCooldown.text = String.Format("Hyde: transform: {0}", currentHydeCooldown).ToString(); ;
+            GlobalCooldown.text = String.Format("Survive as Jekyll until: {0}", currentCountdown).ToString();
+        }
+
         bool jump;
         Vector2 move;
         SpriteRenderer spriteRenderer;
@@ -91,6 +108,7 @@ namespace Platformer.Mechanics
 
         protected override void Update()
         {
+            UpdateText();
             if (controlEnabled)
             {
                 move.x = Input.GetAxis("Horizontal");

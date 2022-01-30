@@ -76,13 +76,24 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   health: {fileID: 6082575806313374961}
   controlEnabled: 1
-  color1: {r: 1, g: 0, b: 0, a: 1}
-  color2: {r: 0, g: 0, b: 1, a: 1}
+  color1: {r: 0.25490198, g: 0.25490198, b: 0.25490198, a: 1}
+  color2: {r: 0, g: 0.05882353, b: 0.05882353, a: 1}
   duration: 3
   levelTilemaps: []
   frontCheck: {fileID: 0}
   meleeRange: 1
   transformationCooldown: 30
+  currentCountdown: 90
+  hydeCooldown: 5
+  currentHydeCooldown: 5
+  isGettingHurt: 0
+  killCount: 0
+  stressMeter: 0
+  Health: {fileID: 0}
+  Stress: {fileID: 0}
+  Kills: {fileID: 0}
+  HydeCooldown: {fileID: 0}
+  GlobalCooldown: {fileID: 0}
 --- !u!212 &212064061491315838
 SpriteRenderer:
   m_ObjectHideFlags: 0
