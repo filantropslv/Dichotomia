@@ -15150,6 +15150,11 @@ PrefabInstance:
       propertyPath: path
       value: 
       objectReference: {fileID: 1620406957}
+    - target: {fileID: 772289407653213039, guid: f158aa2be3df6489185ef721f6fd79c1,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 838423049}
     - target: {fileID: 1577774018119691272, guid: f158aa2be3df6489185ef721f6fd79c1,
         type: 3}
       propertyPath: m_Size.x
