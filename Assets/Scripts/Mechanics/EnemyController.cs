@@ -23,6 +23,9 @@ namespace Platformer.Mechanics
         public bool isDead = false;
         public GameObject player;
 
+        public bool transformed = false;
+        public Sprite jekyllSprite;
+        public Sprite hydeSprite;
 
         internal PatrolPath.Mover mover;
         internal Collider2D _collider;
@@ -39,6 +42,13 @@ namespace Platformer.Mechanics
             spriteRenderer = GetComponent<SpriteRenderer>();
             enemyAnimator = GetComponent<Animator>();
 
+            //random char here
+            if (10 >= Random.Range(0, 20))
+            {
+                Debug.Log("Enemy Random trasformations");
+                Transform();
+            }
+            
             health = GetComponent<Health>();
             StartWatch();
 
@@ -91,6 +101,26 @@ namespace Platformer.Mechanics
             if (spottedCoroutine == null)
             {
                 spottedCoroutine = StartCoroutine(StartWatchCoroutine());
+            }
+        }
+
+        public void Transform()
+        {
+            transformed = !transformed;
+            enemyAnimator.SetBool("transformed", transformed);
+            enemyAnimator.SetTrigger("transformTrigger");
+            switch (transformed)
+            {
+                // Hyde code
+                case true:
+                    Debug.Log("Enemy Transformed into Hyde mode");
+                    spriteRenderer.sprite = hydeSprite;
+                    break;
+                // Jykell code
+                case false:
+                    Debug.Log("Enemy Transformed into Jykell");
+                    spriteRenderer.sprite = jekyllSprite;
+                    break;
             }
         }
 
