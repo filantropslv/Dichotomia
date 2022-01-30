@@ -57,6 +57,9 @@ namespace Platformer.Mechanics
             var enemy = collision.gameObject.GetComponent<EnemyController>();
             if (enemy != null)
             {
+                var ev = Schedule<EnemyEnemyCollision>();
+                ev.player = enemy;
+                ev.enemy = this;
                 Physics2D.IgnoreCollision(enemy.gameObject.GetComponent<Collider2D>(), this._collider);
             }
         }
