@@ -20,6 +20,7 @@ namespace Platformer.Gameplay
 
         public override void Execute()
         {
+            player.enemyInSigth = true;
             var willHurtEnemy = player.Bounds.center.y >= enemy.Bounds.max.y;
 
             if (willHurtEnemy && !enemy.isDead)

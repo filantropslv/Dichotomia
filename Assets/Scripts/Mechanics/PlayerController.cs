@@ -121,7 +121,6 @@ namespace Platformer.Mechanics
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
                 }
-
                 if (transformed && enemyInSigth)
                 {
                     MeleeAttack();
@@ -208,9 +207,10 @@ namespace Platformer.Mechanics
                     Debug.Log("Transformed into Hyde");
                     ChangeMusic(hydeTheme);
                     spriteRenderer.sprite = hydeSprite;
-                    maxSpeed = 4;
+                    maxSpeed = 5;
                     jumpTakeOffSpeed = 6;
-                    health.maxHP = 4;
+                    health.maxHP = 6;
+                    stressMeter = 100;
                     StartCoroutine(TransformCountDownCoroutine());
                     break;
                 // Jykell code
@@ -218,16 +218,16 @@ namespace Platformer.Mechanics
                     Debug.Log("Transformed into Jykell");
                     ChangeMusic(jekyllTheme);
                     spriteRenderer.sprite = jekyllSprite;
-                    maxSpeed = 6f;
+                    maxSpeed = 6.5f;
                     jumpTakeOffSpeed = 8;
-                    health.maxHP = 2;
+                    health.maxHP = 4;
+                    stressMeter = 0;
                     break;
             }
             health.isRegenerating = transformed;
             health.DecrementByValue(0);
             health.ToggleRegen();
             ChangeBackgroundColor();
-            stressMeter = 0;
             controlEnabled = true;
         }
         public void ChangeBackgroundColor()
@@ -276,7 +276,7 @@ namespace Platformer.Mechanics
             while (currentCountdown > 0)
             {
                 Debug.Log("stressMeter: " + stressMeter);
-                if (stressMeter == 0)
+                if (stressMeter == 0 && !transformed)
                 {
                     stressMeterBar[1].gameObject.SetActive(false);
                     stressMeterBar[2].gameObject.SetActive(false);
@@ -284,7 +284,7 @@ namespace Platformer.Mechanics
                     stressMeterBar[4].gameObject.SetActive(false);
                     stressMeterBar[5].gameObject.SetActive(false);
                 }
-                if (stressMeter > 0)
+                if (stressMeter > 0 && !transformed)
                 {
                     stressMeterBar[1].gameObject.SetActive(true);
                     stressMeterBar[2].gameObject.SetActive(false);
@@ -293,7 +293,7 @@ namespace Platformer.Mechanics
                     stressMeterBar[5].gameObject.SetActive(false);
                 }
 
-                if (stressMeter > 20)
+                if (stressMeter > 20 && !transformed)
                 {
                     stressMeterBar[1].gameObject.SetActive(true);
                     stressMeterBar[2].gameObject.SetActive(true);
@@ -302,7 +302,7 @@ namespace Platformer.Mechanics
                     stressMeterBar[5].gameObject.SetActive(false);
                 }
 
-                if (stressMeter > 40)
+                if (stressMeter > 40 && !transformed)
                 {
                     stressMeterBar[1].gameObject.SetActive(true);
                     stressMeterBar[2].gameObject.SetActive(true);
@@ -311,7 +311,7 @@ namespace Platformer.Mechanics
                     stressMeterBar[5].gameObject.SetActive(false);
                 }
                 
-                if (stressMeter > 60)
+                if (stressMeter > 60 && !transformed)
                 {
                     stressMeterBar[1].gameObject.SetActive(true);
                     stressMeterBar[2].gameObject.SetActive(true);
@@ -337,7 +337,12 @@ namespace Platformer.Mechanics
                 yield return new WaitForSeconds(1);
             }
             Debug.Log("CountDownCoroutine Ended Gameover");
-            StartCountdown();
+            if (transformed)
+            {
+                // load scene game over
+            }
+            // game over
+
         }
 
         IEnumerator TransformCountDownCoroutine()
@@ -385,14 +390,17 @@ namespace Platformer.Mechanics
         public void IncreaseStress(int value = 0)
         {
             enemyInSigth = true;
-            stressMeter += value;
+            if (stressMeter < 100 && !transformed)
+            {
+                stressMeter += value;
+            }
         }
 
         IEnumerator StressReliefCoroutine()
         {
             while (true)
             {
-                if (stressMeter > 0)
+                if (stressMeter > 0 && !transformed)
                 {
                     stressMeter -= 1;
                 }

@@ -113,12 +113,12 @@ namespace Platformer.Mechanics
             {
                 // Hyde code
                 case true:
-                    Debug.Log("Enemy Transformed into Hyde mode");
+                    //Debug.Log("Enemy Transformed into Hyde mode");
                     spriteRenderer.sprite = hydeSprite;
                     break;
                 // Jykell code
                 case false:
-                    Debug.Log("Enemy Transformed into Jykell");
+                    //Debug.Log("Enemy Transformed into Jykell");
                     spriteRenderer.sprite = jekyllSprite;
                     break;
             }
@@ -129,11 +129,13 @@ namespace Platformer.Mechanics
             while (this.gameObject != null)
             {
                 var distance = Vector3.Distance(player.transform.position, this.transform.position);
+                var comp = player.GetComponent<PlayerController>();
                 if (distance < 10)
                 {
-                    player.GetComponent<PlayerController>().enemyInSigth = true;
-                    player.GetComponent<PlayerController>().IncreaseStress(3);
-                } 
+                    comp.enemyInSigth = true;
+                    comp.IncreaseStress(1);
+                }
+                comp.enemyInSigth = false;
                 yield return new WaitForSeconds(1);
             }
         }

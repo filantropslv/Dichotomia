@@ -84,6 +84,8 @@ namespace Platformer.Mechanics
                     healthBar[1].gameObject.SetActive(false);
                     healthBar[2].gameObject.SetActive(false);
                     healthBar[3].gameObject.SetActive(false);
+                    healthBar[10].gameObject.SetActive(false);
+                    healthBar[11].gameObject.SetActive(false);
 
                     break;
                 case 1:
@@ -91,24 +93,48 @@ namespace Platformer.Mechanics
                     healthBar[1].gameObject.SetActive(false);
                     healthBar[2].gameObject.SetActive(false);
                     healthBar[3].gameObject.SetActive(false);
+                    healthBar[10].gameObject.SetActive(false);
+                    healthBar[11].gameObject.SetActive(false);
                     break;
                 case 2:
                     healthBar[0].gameObject.SetActive(true);
                     healthBar[1].gameObject.SetActive(true);
                     healthBar[2].gameObject.SetActive(false);
                     healthBar[3].gameObject.SetActive(false);
+                    healthBar[10].gameObject.SetActive(false);
+                    healthBar[11].gameObject.SetActive(false);
                     break;
                 case 3:
                     healthBar[0].gameObject.SetActive(true);
                     healthBar[1].gameObject.SetActive(true);
                     healthBar[2].gameObject.SetActive(true);
                     healthBar[3].gameObject.SetActive(false);
+                    healthBar[10].gameObject.SetActive(false);
+                    healthBar[11].gameObject.SetActive(false);
                     break;
                 case 4:
                     healthBar[0].gameObject.SetActive(true);
                     healthBar[1].gameObject.SetActive(true);
                     healthBar[2].gameObject.SetActive(true);
                     healthBar[3].gameObject.SetActive(true);
+                    healthBar[10].gameObject.SetActive(false);
+                    healthBar[11].gameObject.SetActive(false);
+                    break;
+                case 5:
+                    healthBar[0].gameObject.SetActive(true);
+                    healthBar[1].gameObject.SetActive(true);
+                    healthBar[2].gameObject.SetActive(true);
+                    healthBar[3].gameObject.SetActive(true);
+                    healthBar[10].gameObject.SetActive(true);
+                    healthBar[11].gameObject.SetActive(false);
+                    break;
+                case 6:
+                    healthBar[0].gameObject.SetActive(true);
+                    healthBar[1].gameObject.SetActive(true);
+                    healthBar[2].gameObject.SetActive(true);
+                    healthBar[3].gameObject.SetActive(true);
+                    healthBar[10].gameObject.SetActive(true);
+                    healthBar[11].gameObject.SetActive(true);
                     break;
             }
             
@@ -121,7 +147,7 @@ namespace Platformer.Mechanics
                 {
                     Increment();
                 }
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(1.5f);
 
             }
         }
