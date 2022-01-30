@@ -63,6 +63,9 @@ namespace Platformer.Mechanics
         public Transform frontCheck;
         public float meleeRange = 0.5f;
         public int transformationCooldown = 30;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
         bool jump;
@@ -98,11 +101,14 @@ namespace Platformer.Mechanics
                     Schedule<PlayerStopJump>().player = this;
                 }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 // toogle transform
                 if (Input.GetKeyDown("x"))
                 {
                     Transform();
 =======
+=======
+>>>>>>> Stashed changes
 
                 if (Input.GetKey("c") && transformed)
                 {
@@ -221,7 +227,10 @@ namespace Platformer.Mechanics
             audioSourceParent.Play();
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         public void MeleeAttack()
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Melee"))

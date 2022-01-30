@@ -36,6 +36,9 @@ namespace Platformer.Mechanics
 =======
             health = GetComponent<Health>();
             StartCoroutine(EnemyDeathAnimationCoroutine());
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         }
 
