@@ -19,7 +19,9 @@ namespace Platformer.Mechanics
         public Animator enemyAnimator;
         public Health health;
         public Coroutine deathCoroutine;
+        public Coroutine spottedCoroutine;
         public bool isDead = false;
+        public GameObject player;
 
 
         internal PatrolPath.Mover mover;
@@ -38,6 +40,7 @@ namespace Platformer.Mechanics
             enemyAnimator = GetComponent<Animator>();
 
             health = GetComponent<Health>();
+            StartWatch();
 
         }
 
@@ -78,6 +81,28 @@ namespace Platformer.Mechanics
             enemyAnimator.SetTrigger("death");
             yield return new WaitForSeconds(1f);
             Destroy(this.gameObject);
+        }
+        public void StartWatch()
+        {
+            if (spottedCoroutine == null)
+            {
+                spottedCoroutine = StartCoroutine(StartWatchCoroutine());
+            }
+        }
+
+        IEnumerator StartWatchCoroutine()
+        {
+            while (this.gameObject != null)
+            {
+                var distance = Vector3.Distance(player.transform.position, this.transform.position);
+
+                if (distance < 5)
+                {
+                    player.GetComponent<PlayerController>().IncreaseStress(1);
+                }
+
+                yield return new WaitForSeconds(1);
+            }
         }
     }
 }

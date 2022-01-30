@@ -68,6 +68,7 @@ namespace Platformer.Mechanics
         public bool isGettingHurt = false;
         public Coroutine levelCountdownCoroutine;
         public int killCount = 0;
+        public int stressMeter = 0;
 
         bool jump;
         Vector2 move;
@@ -207,6 +208,7 @@ namespace Platformer.Mechanics
             health.DecrementByValue(0);
             health.ToggleRegen();
             ChangeBackgroundColor();
+            stressMeter = 0;
             controlEnabled = true;
         }
         public void ChangeBackgroundColor()
@@ -253,8 +255,12 @@ namespace Platformer.Mechanics
             while (currentCountdown > 0)
             {
                 Debug.Log("CountDownCoroutine " + currentCountdown);
-                Debug.Log("KillCount: " + killCount);
+                Debug.Log("stressMeter: " + stressMeter);
                 currentCountdown--;
+                if (stressMeter >= 100 && !transformed)
+                {
+                    Transform();
+                }
                 yield return new WaitForSeconds(1);
             }
             Debug.Log("CountDownCoroutine Ended Gameover");
@@ -273,6 +279,11 @@ namespace Platformer.Mechanics
             }
             Transform();
             Debug.Log("TransformCountDownCoroutine Ended");
+        }
+        public void IncreaseStress(int value = 0)
+        {
+            Debug.Log("Stress Increased!!!");
+            stressMeter += value;
         }
 
         public enum JumpState

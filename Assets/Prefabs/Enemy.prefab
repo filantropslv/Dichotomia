@@ -167,6 +167,8 @@ MonoBehaviour:
   control: {fileID: 0}
   enemyAnimator: {fileID: 0}
   health: {fileID: 0}
+  isDead: 0
+  player: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
 --- !u!82 &5843668731025413174
 AudioSource:
   m_ObjectHideFlags: 0
