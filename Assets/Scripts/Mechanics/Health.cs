@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Platformer.Gameplay;
 using UnityEngine;
+using UnityEngine.UI;
 using static Platformer.Core.Simulation;
 
 namespace Platformer.Mechanics
@@ -26,6 +27,9 @@ namespace Platformer.Mechanics
         public bool isRegenerating = false;
 
         public Coroutine regenCoroutine;
+        public Coroutine stressCoroutine;
+
+        public Button[] healthBar;
 
         /// <summary>
         /// Increment the HP of the entity.
@@ -56,7 +60,6 @@ namespace Platformer.Mechanics
         public void Die()
         {
             while (currentHP > 0) Decrement();
-            StopCoroutine(regenCoroutine);
         }
 
         public void ToggleRegen()
@@ -70,14 +73,46 @@ namespace Platformer.Mechanics
         void Awake()
         {
             currentHP = maxHP;
-            
         }
 
         private void Update()
         {
-            //Debug.Log("currentHp: " + currentHP + " MaxHP: " + maxHP);
-        }
+            switch (currentHP)
+            {
+                case 0:
+                    healthBar[0].gameObject.SetActive(false);
+                    healthBar[1].gameObject.SetActive(false);
+                    healthBar[2].gameObject.SetActive(false);
+                    healthBar[3].gameObject.SetActive(false);
 
+                    break;
+                case 1:
+                    healthBar[0].gameObject.SetActive(true);
+                    healthBar[1].gameObject.SetActive(false);
+                    healthBar[2].gameObject.SetActive(false);
+                    healthBar[3].gameObject.SetActive(false);
+                    break;
+                case 2:
+                    healthBar[0].gameObject.SetActive(true);
+                    healthBar[1].gameObject.SetActive(true);
+                    healthBar[2].gameObject.SetActive(false);
+                    healthBar[3].gameObject.SetActive(false);
+                    break;
+                case 3:
+                    healthBar[0].gameObject.SetActive(true);
+                    healthBar[1].gameObject.SetActive(true);
+                    healthBar[2].gameObject.SetActive(true);
+                    healthBar[3].gameObject.SetActive(false);
+                    break;
+                case 4:
+                    healthBar[0].gameObject.SetActive(true);
+                    healthBar[1].gameObject.SetActive(true);
+                    healthBar[2].gameObject.SetActive(true);
+                    healthBar[3].gameObject.SetActive(true);
+                    break;
+            }
+            
+        }
         IEnumerator RegenerateCoroutine()
         {
             while (true)

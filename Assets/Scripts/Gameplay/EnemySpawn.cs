@@ -38,7 +38,7 @@ public class EnemySpawn : MonoBehaviour
                 levelIndex += 2;
             }
 
-            yield return new WaitForSeconds(2.05f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

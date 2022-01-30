@@ -99,12 +99,11 @@ namespace Platformer.Mechanics
             while (this.gameObject != null)
             {
                 var distance = Vector3.Distance(player.transform.position, this.transform.position);
-
-                if (distance < 5)
+                if (distance < 10)
                 {
-                    player.GetComponent<PlayerController>().IncreaseStress(1);
-                }
-
+                    player.GetComponent<PlayerController>().enemyInSigth = true;
+                    player.GetComponent<PlayerController>().IncreaseStress(3);
+                } 
                 yield return new WaitForSeconds(1);
             }
         }
