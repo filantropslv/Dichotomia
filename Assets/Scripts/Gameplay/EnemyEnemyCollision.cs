@@ -21,11 +21,11 @@ namespace Platformer.Gameplay
         public override void Execute()
         {
  
-            if (player.Bounds.center.y > enemy.Bounds.center.y)
+            if (player.Bounds.center.y > 8)
             {
                 Schedule<EnemyDeath>().enemy = enemy;
             }
-            else if (player.Bounds.center.y < enemy.Bounds.center.y)
+            else if (enemy.Bounds.center.y > 8)
             {
                 Schedule<EnemyDeath>().enemy = player;
             }
