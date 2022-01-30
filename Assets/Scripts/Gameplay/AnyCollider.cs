@@ -10,7 +10,7 @@ public class AnyCollider : MonoBehaviour
         {
             if (contact.collider.name.IndexOf("Enemy") > -1) {
                 // Destroy(contact.collider); -- can not do directly
-
+                Debug.Log(contact.collider.bounds.center.y);
             }
         }
     }

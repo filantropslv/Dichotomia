@@ -29,6 +29,8 @@ namespace Platformer.Gameplay
             {
                 Schedule<EnemyDeath>().enemy = player;
             }
+
+            // 
         }
     }
 }
