@@ -69151,6 +69151,18 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 838423049}
+    - target: {fileID: 772289407653213039, guid: f158aa2be3df6489185ef721f6fd79c1,
+        type: 3}
+      propertyPath: hydeSprite
+      value: 
+      objectReference: {fileID: -6649369661679550148, guid: 9cfd2f52d2a7e8644bf285de90451280,
+        type: 3}
+    - target: {fileID: 772289407653213039, guid: f158aa2be3df6489185ef721f6fd79c1,
+        type: 3}
+      propertyPath: jekyllSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a350efad7bb7f9c4d86d94b45d3679fe,
+        type: 3}
     - target: {fileID: 1577774018119691272, guid: f158aa2be3df6489185ef721f6fd79c1,
         type: 3}
       propertyPath: m_Size.x
