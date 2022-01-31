@@ -1,5 +1,5 @@
 # Dichotomia
-
+![alt text](https://github.com/filantropslv/Dichotomia/blob/master/Assets/Images/Dichotomia_featured.png?raw=true)
 You play as Jekyll. Your objective is to stay away from enemies at all costs. If you’re too close to them, or you manage to kill them, you gain stress. When your stress meter gets full, you transform into your inner demon Hyde. They will slay everything in sight, giving them strength to last longer.
 
 The game ends, when the timer runs out. If you die before the timer, or stay as Hyde when the time is up, you lose. If you survive, you win.
