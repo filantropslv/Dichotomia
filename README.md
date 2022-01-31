@@ -10,6 +10,9 @@ Space - Jump
 Credits
 --
 This game was created by the team Greenjam (exclusive to Global Gamejam LV 2022).
+
 **Filantrops** - programmer, designer
+
 **Shivergard**- programmer, level designer
+
 **AlacrisDevs** - 2D artist, sound designer
