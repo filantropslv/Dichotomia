@@ -73,6 +73,8 @@ namespace Platformer.Mechanics
         public int stressMeter = 0;
         public bool enemyInSigth = false;
 
+        public Joystick joystick;
+
         public Text GlobalCooldown;
         public Text KillCounter;
 
@@ -112,11 +114,14 @@ namespace Platformer.Mechanics
             UpdateText();
             if (controlEnabled)
             {
-                move.x = Input.GetAxis("Horizontal");
+                if (joystick.Horizontal >= .2f || joystick.Horizontal <= .2f)
+                {
+                    move.x = joystick.Horizontal;
+                }
 
-                if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
-                    jumpState = JumpState.PrepareToJump;
-                else if (Input.GetButtonUp("Jump"))
+                if (joystick.Vertical > 0)
+                    Schedule<JumpState.Jumping>().player = this;
+                else if (joystick.Vertical == 0)
                 {
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
